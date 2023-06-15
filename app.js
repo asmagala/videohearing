@@ -22,6 +22,4 @@ const config = {
   server: process.env.DB_SERVER,
   database: process.env.DB_DATABASE,
   trustServerCertificate: process.env.DB_TRUST === 'true' ? true : false
-;
-
-}
+};

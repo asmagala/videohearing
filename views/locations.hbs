@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{this.pageTitle}}</title>
+</head>
+<body>
+  <p id="paragraph"></p>
+  <h1>----------------</h1>
+  <button id="btnAdd">Dodaj nowy</button>
+  <div> 
+    <h3>Lokalizacja:</h3>
+    <ul>
+      {{#each location}}
+      <li>
+        {{this.description}}
+        <button id="edit_{{this.id}}" class="edit-button">Edytuj</button>
+        <button id="delete_{{this.id}}" class="delete-button">Usuń</button>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <dialog id="add-dialog">
+    <div> 
+      <h3>Dodaj lokalizację:</h3>
+    <form id="form-dialog-add" method="dialog"> 
+      <label for="add-name">Nazwa:</label>
+      <input type="text" id="add-name" name="add-name" required><br><br>
+      <label for="add-description">Opis:</label>
+      <input type="text" id="add-description" name="add-description" required><br><br>
+      
+      <label for="add-building">Budynek:</label>
+      <select id="add-building" name="add-building">
+        {{#each building}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+      </select><br><br>
+      
+      <label for="add-locationtype">Rodzaj pomieszczenia</label>
+      <select id="add-locationtype" name="add-locationtype">
+        {{#each locationtype}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+      </select><br><br>
+      
+      <button id="dialog-dodaj-button">Dodaj</button>
+      <button id="dialog-zamknij-button">Zamknij</button>
+    </form>
+    </div>
+  </dialog>  
+
+
+  <dialog id="edit-dialog">
+    <div> 
+      <h3>Edycja lokalizacji:</h3>
+    <form id="form-dialog-edit" method="dialog"> 
+      <input id="edit-id" >
+      <label for="edit-name">Nazwa:</label>
+      <input type="text" id="edit-name" name="edit-name" required><br><br>
+      <label for="edit-description">Opis:</label>
+      <input type="text" id="edit-description" name="edit-description" required><br><br>
+
+     
+      <label for="edit-building">Budynek:</label>
+      <select id="edit-building" name="edit-building">
+        {{#each building}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+      </select><br><br>
+      
+      <label for="edit-locationtype">Rodzaj pomieszczenia</label>
+      <select id="edit-locationtype" name="edit-locationtype">
+        {{#each locationtype}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+
+      <button id="dialog-edit-button-save">Zapisz</button>
+      <button id="dialog-edit-button-close">Zamknij</button>
+    </form>
+    </div>
+  </dialog>  
+
+  
+  <dialog id="delete-dialog">
+    <div> 
+      <input id="dialog-delete-id-to-delete" hidden>
+      <h1>Czy na pewno usunąć?</h1>
+      <h3>"TAK" spowoduje usunięcie budynku"<span id="type-span"></span>"</h3>
+      <button id="dialog-delete-button-yes">TAK</button>
+      <button id="dialog-delete-button-no">NIE</button>
+    </div>
+  </dialog> 
+
+  <script>
+  const dlgAdd = document.getElementById('add-dialog');
+  const dlgEdit = document.getElementById('edit-dialog');
+  const dlgDelete = document.getElementById('delete-dialog');
+
+    const btnAdd = document.getElementById('btnAdd');
+
+    const dlgAddButton = document.getElementById('dialog-dodaj-button');
+    const dlgCloseButton = document.getElementById('dialog-zamknij-button');
+    const dlgEditButtonSave = document.getElementById('dialog-edit-button-save');
+    const dlgEditButtonClose = document.getElementById('dialog-edit-button-close');
+    const dlgDeleteButtonYes = document.getElementById('dialog-delete-button-yes');
+    const dlgDeleteButtonNo = document.getElementById('dialog-delete-button-no');
+
+    btnAdd.addEventListener('click', () => {
+      dlgAdd.showModal();
+    });
+
+    dlgCloseButton.addEventListener('click', () => {
+      dlgAdd.close();
+    });
+
+    dlgEditButtonClose.addEventListener('click', () => {
+      dlgEdit.close();
+    });
+
+    dlgDeleteButtonNo.addEventListener('click', () => {
+      dlgDelete.close();
+    });
+
+    dlgAddButton.addEventListener('click', () => {
+      const data = {
+        name: document.getElementById('add-name').value,
+        description: document.getElementById('add-description').value,
+        building_id: document.getElementById('add-building').value,
+        locationtype_id: document.getElementById('add-locationtype').value
+      };
+
+      const paragraph = document.getElementById('paragraph');
+      paragraph.innerText = 'sssssssssssssssssssssss'; //data.name;
+
+      alert(data);
+
+      // Send a POST request to the server
+      fetch('/location', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            // The request was successful
+            console.log('New location added successfully!');
+            window.location.href = '/location'; 
+          } else {
+            // The request failed
+            console.log('Error adding new location');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+        
+        dlgAdd.close();
+      
+      });
+//////////////////////////////////////////////////////////
+    dlgEditButtonSave.addEventListener('click', () => {
+      const data = {
+        id: document.getElementById('edit-id').value,
+        name: document.getElementById('edit-name').value,
+        description: document.getElementById('edit-description').value,
+        building_id: document.getElementById('add-building').value,
+        locationtype_id: document.getElementById('add-locationtype').value
+      };
+
+      alert(data);
+
+      // Send a POST request to the server
+      fetch('/building/change', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            // The request was successful
+            console.log('Building data changed successfully!');
+            window.location.href = '/building'; 
+          } else {
+            // The request failed
+            console.log('Error changing building data');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+      
+      dlgEdit.close();
+    });
+
+  </script>
+  <script> ///////////////////////////////////////////////////////
+    // Select all buttons with the class "edit-button"
+const editButtons = document.querySelectorAll('.edit-button');
+
+// Add event listener to each button
+editButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    // Extract the ID from the button's ID attribute
+    const buttonId = button.id;
+    const id = buttonId.split('_')[1]; // Assuming the ID is after the underscore
+
+    // Perform the desired action with the extracted ID
+    console.log('Edit button clicked with ID:', id);
+    // ... your code here ...
+
+    fetch(`/building/get/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('edit-id').value = data[0].id;
+        document.getElementById('edit-name').value = data[0].name;
+        document.getElementById('edit-description').value = data[0].description;
+        document.getElementById('edit-street').value = data[0].street;
+        document.getElementById('edit-code').value = data[0].citycode;
+        document.getElementById('edit-city').value = data[0].city;
+      })
+      dlgEdit.showModal();
+      });
+});
+</script>
+
+<script>
+//////////////////////////////////////////////////////////////////////
+
+    // Select all buttons with the class "delete-button"
+const deleteButtons = document.querySelectorAll('.delete-button');
+
+// Add event listener to each button
+deleteButtons.forEach(button => {
+  button.addEventListener('click', function() {
+
+    const buttonId = button.id;
+    const id = buttonId.split('_')[1]; 
+
+    fetch(`/building/get/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('type-span').innerText = data[0].name;
+        document.getElementById('dialog-delete-id-to-delete').value = data[0].id;
+      })
+
+    dlgDelete.showModal();
+
+      });
+      
+  });
+
+  dlgDeleteButtonYes.addEventListener('click', () => {
+      const data = {
+        id: document.getElementById('dialog-delete-id-to-delete').value
+      };
+
+// Send a POST request to the server
+  fetch('/building/delete', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+  },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Building data has been deleted successfully!');
+      window.location.href = '/building'; 
+    } else {
+      console.log('Error delete building data');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+      dlgEdit.close();
+});
+
+</script>
+</body>
+</html>
