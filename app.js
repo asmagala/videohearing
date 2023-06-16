@@ -36,7 +36,7 @@ app.get('/edit-hearing', (req, res) => {
           description: 'Długa nazwa rozprawy'
          }, {
           id: '3',
-          name: 'Nazwa rozprawy drukieg',
+          name: 'Nazwa rozprawy drugiej',
           description: 'Długa nazwa rozprawy drugiej'
           }
         ]
