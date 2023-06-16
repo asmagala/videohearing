@@ -1,4 +1,4 @@
-requestAnimationFrame('dotenv').config();
+require('dotenv').config();
 
 const express = require('express');
 const exphbs = require('express-handlebars');
@@ -23,3 +23,34 @@ const config = {
   database: process.env.DB_DATABASE,
   trustServerCertificate: process.env.DB_TRUST === 'true' ? true : false
 };
+
+/////////////////////////////////////////////////////////////////////////
+app.get('/edit-hearing', (req, res) => {
+  sql.connect(config, () => {
+    res.render('edit-hearing', {
+      pageTitle: 'Dodawanie i edycja rozpraw',
+      rozprawa: [
+        {
+          id: '2',
+          name: 'Nazwa rozprawy',
+          description: 'Długa nazwa rozprawy'
+         }, {
+          id: '3',
+          name: 'Nazwa rozprawy drukieg',
+          description: 'Długa nazwa rozprawy drugiej'
+          }
+        ]
+
+    });
+  });
+});
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server listening on port ${process.env.PORT}`);
+})
