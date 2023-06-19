@@ -25,25 +25,27 @@
     <div> 
       <h3>Dodaj lokalizację:</h3>
     <form id="form-dialog-add" method="dialog"> 
-      <label for="add-name">Nazwa:</label>
-      <input type="text" id="add-name" name="add-name" required><br><br>
-      <label for="add-description">Opis:</label>
-      <input type="text" id="add-description" name="add-description" required><br><br>
+      <label for="add-signature">Sygnatura:</label>
+      <input type="text" id="add-signature" name="add-signature" required><br><br>
       
-      <label for="add-building">Budynek:</label>
-      <select id="add-building" name="add-building">
-        {{#each building}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
-      </select><br><br>
+      <label for="add-location">Sala:</label>
+      <input type="text" id="add-location" name="add-location" required><br><br>
+            
+      <label for="add-link">Link:</label>
+      <input type="text" id="add-link" name="add-link" required><br><br>
       
-      <label for="add-locationtype">Rodzaj pomieszczenia</label>
-      <select id="add-locationtype" name="add-locationtype">
-        {{#each locationtype}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
-      </select><br><br>
-      
+      <label for="add-info">Dodatkowe informacje:</label>
+      <input type="text" id="add-info" name="add-info" required><br><br>
+
+      <label for="add-date">Data:</label>
+      <input type="date" id="add-date" name="add-date" required><br><br>
+
+      <label for="add-time-from">Od godz.:</label>
+      <input type="time" id="add-time-from" name="add-time-from" required><br><br>
+
+      <label for="add-time-to">Do godz.:</label>
+      <input type="time" id="add-time-to" name="add-time-to" required><br><br>
+
       <button id="dialog-dodaj-button">Dodaj</button>
       <button id="dialog-zamknij-button">Zamknij</button>
     </form>
@@ -53,27 +55,29 @@
 
   <dialog id="edit-dialog">
     <div> 
-      <h3>Edycja lokalizacji:</h3>
+      <h3>Edycja rozprawy:</h3>
     <form id="form-dialog-edit" method="dialog"> 
       <input id="edit-id" >
-      <label for="edit-name">Nazwa:</label>
-      <input type="text" id="edit-name" name="edit-name" required><br><br>
-      <label for="edit-description">Opis:</label>
-      <input type="text" id="edit-description" name="edit-description" required><br><br>
-
-     
-      <label for="edit-building">Budynek:</label>
-      <select id="edit-building" name="edit-building">
-        {{#each building}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
-      </select><br><br>
+     <label for="edit-signature">Sygnatura:</label>
+      <input type="text" id="edit-signature" name="edit-signature" required><br><br>
       
-      <label for="edit-locationtype">Rodzaj pomieszczenia</label>
-      <select id="edit-locationtype" name="edit-locationtype">
-        {{#each locationtype}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
+      <label for="edit-location">Sala:</label>
+      <input type="text" id="edit-location" name="edit-location" required><br><br>
+            
+      <label for="edit-link">Link:</label>
+      <input type="text" id="edit-link" name="edit-link" required><br><br>
+      
+      <label for="edit-info">Dodatkowe informacje:</label>
+      <input type="text" id="edit-info" name="edit-info" required><br><br>
+
+      <label for="edit-date">Data:</label>
+      <input type="date" id="edit-date" name="edit-date" required><br><br>
+
+      <label for="edit-time-from">Od godz.:</label>
+      <input type="time" id="edit-time-from" name="edit-time-from" required><br><br>
+
+      <label for="edit-time-to">Do godz.:</label>
+      <input type="time" id="edit-time-to" name="edit-time-to" required><br><br>
 
       <button id="dialog-edit-button-save">Zapisz</button>
       <button id="dialog-edit-button-close">Zamknij</button>
