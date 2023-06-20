@@ -11,9 +11,14 @@
   <div> 
     <h3>Rozprawy:</h3>
     <ul>
-      {{#each rozprawa}}
+      {{#each hearings}}
       <li>
-        {{this.description}}
+        <div>{{this.signature}}</div>
+        <div>{{this.link}}</div>
+        <div>{{this.location}}</div> 
+        <div>{{this.hearing_date}}</div>
+        <div>{{this.time_from}}</div>
+        <div>{{this.time_to}}</div>
         <button id="edit_{{this.id}}" class="edit-button">Edytuj</button>
         <button id="delete_{{this.id}}" class="delete-button">Usuń</button>
       </li>
@@ -128,19 +133,29 @@
 
     dlgAddButton.addEventListener('click', () => {
       const data = {
-        name: document.getElementById('add-name').value,
-        description: document.getElementById('add-description').value,
-        building_id: document.getElementById('add-building').value,
-        locationtype_id: document.getElementById('add-locationtype').value
+        signature: document.getElementById('add-signature').value,
+        location: document.getElementById('add-location').value,
+        link: document.getElementById('add-link').value,
+        info: document.getElementById('add-info').value,
+        hearing_date: document.getElementById('add-date').value,
+        time_from: document.getElementById('add-time-from').value,
+        time_to: document.getElementById('add-time-to').value
       };
 
       const paragraph = document.getElementById('paragraph');
-      paragraph.innerText = 'sssssssssssssssssssssss'; //data.name;
+      paragraph.innerText = 'sssssssssssssssssssssss'; 
 
-      alert(data);
+      const tekst = `sygnatura: ${data.signature}, 
+      sala: ${data.location},
+      link: ${data.link},
+      hearing_date: ${data.hearing_date},
+      time_from: ${data.time_from},
+      time_to: ${data.time_to}, 
+      info: ${data.info}`;
+      alert(tekst);
 
       // Send a POST request to the server
-      fetch('/location', {
+      fetch('/edit-hearing', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -150,11 +165,11 @@
         .then(response => {
           if (response.ok) {
             // The request was successful
-            console.log('New location added successfully!');
-            window.location.href = '/location'; 
+            console.log('New hearing added successfully!');
+            window.location.href = 'edit-hearing'; 
           } else {
             // The request failed
-            console.log('Error adding new location');
+            console.log('Error adding new hearing');
           }
         })
         .catch(error => {
