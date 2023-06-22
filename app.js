@@ -28,7 +28,8 @@ const config = {
 app.get('/edit-hearing', (req, res) => {
   sql.connect(config, () => {
     var hearings = new sql.Request();
-    hearings.query('SELECT * FROM simple_v_hearing', function(hearingErr, hearingResult) {
+    const selectQueryAll = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing`;
+    hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
         return res.status(500).send('Error retrieving simple hearings');
@@ -71,7 +72,28 @@ app.post('/edit-hearing', (req, res) => {
   });
 });
 
+app.get('/edit-hearing/:id', (req, res) => {
+  const id = req.params.id;
+  
+  // Use the id to query the database and retrieve the row
+  // Perform your database query here
+  sql.connect(config, (err) => {
+    if (err) throw err;
 
+    const request = new sql.Request();
+    const selectQueryById = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing where id = ${id}`;
+    
+
+    console.log('query: ', selectQueryById);
+
+    request.query(selectQueryById, (err, result) => {
+      if (err) throw err;
+
+      console.log('Hearing data retrieved successfully!: ', result);
+      res.json(result.recordset);
+    });
+  });
+});
 
 
 

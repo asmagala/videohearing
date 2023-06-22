@@ -13,12 +13,11 @@
     <ul>
       {{#each hearings}}
       <li>
-        <div>{{this.signature}}</div>
-        <div>{{this.link}}</div>
-        <div>{{this.location}}</div> 
+        <div><a href={{{this.link}}} target="_blank">{{this.signature}} sala nr {{this.location}}</a></div>
         <div>{{this.hearing_date}}</div>
         <div>{{this.time_from}}</div>
         <div>{{this.time_to}}</div>
+        <div>{{this.info}}</div>
         <button id="edit_{{this.id}}" class="edit-button">Edytuj</button>
         <button id="delete_{{this.id}}" class="delete-button">Usuń</button>
       </li>
@@ -232,15 +231,17 @@ editButtons.forEach(button => {
     console.log('Edit button clicked with ID:', id);
     // ... your code here ...
 
-    fetch(`/building/get/${id}`)
+    fetch(`/edit-hearing/${id}`)
       .then(response => response.json())
       .then(data => {
         document.getElementById('edit-id').value = data[0].id;
-        document.getElementById('edit-name').value = data[0].name;
-        document.getElementById('edit-description').value = data[0].description;
-        document.getElementById('edit-street').value = data[0].street;
-        document.getElementById('edit-code').value = data[0].citycode;
-        document.getElementById('edit-city').value = data[0].city;
+        document.getElementById('edit-signature').value = data[0].signature;
+        document.getElementById('edit-location').value = data[0].location;
+        document.getElementById('edit-link').value = data[0].link;
+        document.getElementById('edit-info').value = data[0].info;
+        document.getElementById('edit-date').value = data[0].hearing_date;
+        document.getElementById('edit-time-from').value = data[0].time_from;
+        document.getElementById('edit-time-to').value = data[0].time_to;
       })
       dlgEdit.showModal();
       });

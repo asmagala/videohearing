@@ -1,9 +1,9 @@
 CREATE TABLE simple_v_hearing (
   id INT IDENTITY(1,1) PRIMARY KEY,
   link VARCHAR(255) NOT NULL,
-  date DATE NOT NULL,
-  time_from TIME NOT NULL,
-  time_to TIME NOT NULL,
+  hearing_date DATE NOT NULL,
+  time_from TIME(0) NOT NULL,
+  time_to TIME(0) NOT NULL,
   info TEXT,
   signature VARCHAR(50),
   location VARCHAR(255)
