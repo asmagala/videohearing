@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{this.pageTitle}}</title>
+</head>
+<body>
+  <div> 
+    <h3>Rozprawy:</h3>
+    <ul>
+      {{#each hearings}}
+      <li>
+        <div><a href={{{this.link}}} target="_blank">{{this.signature}}</a>
+          sala nr {{this.location}} data: {{this.hearing_date}} od godz.: {{this.time_from}}
+          do godz.: {{this.time_to}} dodatkowa informacja: {{this.info}}
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</body>
+</html>

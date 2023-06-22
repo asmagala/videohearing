@@ -25,6 +25,25 @@ const config = {
 };
 
 /////////////////////////////////////////////////////////////////////////
+app.get('/', (req, res) => {
+  sql.connect(config, () => {
+    var hearings = new sql.Request();
+    const selectQueryAll = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing`;
+    hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
+      if (hearingErr) {
+        console.log(hearingErr);
+        return res.status(500).send('Error retrieving simple hearings');
+      }
+
+      // Render the hearing page with the list of buildings and locations
+      res.render('hearing', {
+        pageTitle: 'Rozprawy',
+        hearings: hearingResult.recordset
+        });
+    });
+  });
+});
+
 app.get('/edit-hearing', (req, res) => {
   sql.connect(config, () => {
     var hearings = new sql.Request();

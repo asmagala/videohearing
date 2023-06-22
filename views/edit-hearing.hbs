@@ -13,13 +13,12 @@
     <ul>
       {{#each hearings}}
       <li>
-        <div><a href={{{this.link}}} target="_blank">{{this.signature}} sala nr {{this.location}}</a></div>
-        <div>{{this.hearing_date}}</div>
-        <div>{{this.time_from}}</div>
-        <div>{{this.time_to}}</div>
-        <div>{{this.info}}</div>
+        <div><a href={{{this.link}}} target="_blank">{{this.signature}}</a>
+        sala nr {{this.location}} data: {{this.hearing_date}} od godz.: {{this.time_from}}
+        do godz.: {{this.time_to}} dodatkowa informacja: {{this.info}}
         <button id="edit_{{this.id}}" class="edit-button">Edytuj</button>
         <button id="delete_{{this.id}}" class="delete-button">Usuń</button>
+        </div>
       </li>
       {{/each}}
     </ul>
@@ -154,7 +153,7 @@
       alert(tekst);
 
       // Send a POST request to the server
-      fetch('/edit-hearing', {
+      fetch('/add-hearing', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
