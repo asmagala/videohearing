@@ -1,10 +1,11 @@
 CREATE TABLE simple_v_hearing (
   id INT IDENTITY(1,1) PRIMARY KEY,
+  signature VARCHAR(50),
+  location VARCHAR(255),
   link VARCHAR(255) NOT NULL,
   hearing_date DATE NOT NULL,
   time_from TIME(0) NOT NULL,
-  time_to TIME(0) NOT NULL,
+  time_to TIME(0),
   info TEXT,
-  signature VARCHAR(50),
-  location VARCHAR(255)
+  deleted int default 0
 );

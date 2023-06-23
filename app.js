@@ -28,7 +28,9 @@ const config = {
 app.get('/', (req, res) => {
   sql.connect(config, () => {
     var hearings = new sql.Request();
-    const selectQueryAll = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing`;
+    const selectQueryAll = `SELECT id, link, convert(varchar, hearing_date, 23) as hearing_date, 
+      convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location 
+      FROM simple_v_hearing WHERE deleted = 0`;
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
@@ -44,10 +46,16 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/edit-hearing', (req, res) => {
+/////////////////////////////////////////////////////////////////////////////
+app.get('/get-hearings', (req, res) => {
   sql.connect(config, () => {
     var hearings = new sql.Request();
-    const selectQueryAll = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing`;
+    const selectQueryAll = `SELECT id, link, 
+      convert(varchar, hearing_date, 23) as hearing_date, 
+      convert(varchar(5), time_from, 108) as time_from, 
+      convert(varchar(5), time_to, 108) as time_to, info, 
+      signature, location FROM simple_v_hearing
+      WHERE deleted = 0`;
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
@@ -63,7 +71,37 @@ app.get('/edit-hearing', (req, res) => {
   });
 });
 
-// insert the submitted form data into the locations table
+app.post('/add-hearing', (req, res) => {
+  console.log('req.body: ', req.body);
+  const link = req.body.link;
+  const hearing_date = req.body.hearing_date;
+  const time_from = req.body.time_from;
+  const time_to = req.body.time_to;
+  const info = req.body.info;
+  const signature = req.body.signature;
+  const location = req.body.location;
+
+  sql.connect(config, (err) => {
+    if (err) throw err;
+
+    const request = new sql.Request();
+    const query = `INSERT INTO simple_v_hearing 
+      (link, hearing_date, time_from, time_to, info, signature, location) 
+      VALUES 
+      ('${link}', '${hearing_date}', '${time_from}', '${time_to}', '${info}', '${signature}', '${location}')`;
+
+    console.log('query: ', query);
+
+    request.query(query, (err, result) => {
+      if (err) throw err;
+
+      console.log('Hearing added successfully!');
+      res.redirect('edit-hearing');
+    });
+  });
+});
+
+
 app.post('/edit-hearing', (req, res) => {
   console.log('req.body: ', req.body);
   const link = req.body.link;
@@ -114,7 +152,58 @@ app.get('/edit-hearing/:id', (req, res) => {
   });
 });
 
+app.post('/change-hearing', (req, res) => {
+  console.log('req.body: ', req.body);
+  const id = req.body.id;
+  const link = req.body.link;
+  const hearing_date = req.body.hearing_date;
+  const time_from = req.body.time_from;
+  const time_to = req.body.time_to;
+  const info = req.body.info;
+  const signature = req.body.signature;
+  const location = req.body.location;
 
+  sql.connect(config, (err) => {
+    if (err) throw err;
+
+    const request = new sql.Request();
+    const query = `UPDATE simple_v_hearing SET link = '${link}', hearing_date = '${hearing_date}', time_from = '${time_from}', time_to = '${time_to}', info = '${info}', signature = '${signature}', location = '${location}' WHERE id = ${id}`;
+
+    console.log('query: ', query);
+
+    request.query(query, (err, result) => {
+      if (err) throw err;
+
+      console.log('Hearing added successfully!');
+      res.redirect('/edit-hearing');
+    });
+  });
+});
+
+app.get('/delete-hearing/:id', (req, res) => {
+
+});
+
+app.post('/delete-hearing', (req, res) => {
+  console.log('req.body: ', req.body);
+  const id = req.body.id;
+
+  sql.connect(config, (err) => {
+    if (err) throw err;
+
+    const request = new sql.Request();
+    const query = `DELETE FROM simple_v_hearing WHERE id = ${id}`;
+
+    console.log('query: ', query);
+
+    request.query(query, (err, result) => {
+      if (err) throw err;
+
+      console.log('Hearing DELETED successfully!');
+      res.redirect('/edit-hearing');
+    });
+  });
+});
 
 ///////////////////////////////////////////////////////////////////////////
 

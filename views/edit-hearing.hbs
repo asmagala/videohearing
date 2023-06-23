@@ -93,7 +93,7 @@
     <div> 
       <input id="dialog-delete-id-to-delete" hidden>
       <h1>Czy na pewno usunąć?</h1>
-      <h3>"TAK" spowoduje usunięcie budynku"<span id="type-span"></span>"</h3>
+      <h3>"TAK" spowoduje usunięcie rozprawy"<span id="signature-span"></span> z dnia <span id="date-span"></span></h3>
       <button id="dialog-delete-button-yes">TAK</button>
       <button id="dialog-delete-button-no">NIE</button>
     </div>
@@ -181,16 +181,29 @@
     dlgEditButtonSave.addEventListener('click', () => {
       const data = {
         id: document.getElementById('edit-id').value,
-        name: document.getElementById('edit-name').value,
-        description: document.getElementById('edit-description').value,
-        building_id: document.getElementById('add-building').value,
-        locationtype_id: document.getElementById('add-locationtype').value
+        signature: document.getElementById('edit-signature').value,
+        location: document.getElementById('edit-location').value,
+        link: document.getElementById('edit-link').value,
+        info: document.getElementById('edit-info').value,
+        hearing_date: document.getElementById('edit-date').value,
+        time_from: document.getElementById('edit-time-from').value,
+        time_to: document.getElementById('edit-time-to').value  
       };
 
-      alert(data);
+      const tekst = `
+      id: ${data.id},
+      sygnatura: ${data.signature}, 
+      sala: ${data.location},
+      link: ${data.link},
+      hearing_date: ${data.hearing_date},
+      time_from: ${data.time_from},
+      time_to: ${data.time_to}, 
+      info: ${data.info}`;
+      alert(tekst);
+
 
       // Send a POST request to the server
-      fetch('/building/change', {
+      fetch('/change-hearing', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -200,11 +213,11 @@
         .then(response => {
           if (response.ok) {
             // The request was successful
-            console.log('Building data changed successfully!');
-            window.location.href = '/building'; 
+            console.log('Hearing data changed successfully!');
+            window.location.href = 'edit-hearing'; 
           } else {
             // The request failed
-            console.log('Error changing building data');
+            console.log('Error changing hearing data');
           }
         })
         .catch(error => {
@@ -260,10 +273,11 @@ deleteButtons.forEach(button => {
     const buttonId = button.id;
     const id = buttonId.split('_')[1]; 
 
-    fetch(`/building/get/${id}`)
+    fetch(`/edit-hearing/${id}`)
       .then(response => response.json())
       .then(data => {
-        document.getElementById('type-span').innerText = data[0].name;
+        document.getElementById('signature-span').innerText = data[0].signature;
+        document.getElementById('date-span').innerText = data[0].hearing_date;
         document.getElementById('dialog-delete-id-to-delete').value = data[0].id;
       })
 
@@ -279,7 +293,7 @@ deleteButtons.forEach(button => {
       };
 
 // Send a POST request to the server
-  fetch('/building/delete', {
+  fetch('/delete-hearing', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -288,10 +302,10 @@ deleteButtons.forEach(button => {
   })
   .then(response => {
     if (response.ok) {
-      console.log('Building data has been deleted successfully!');
-      window.location.href = '/building'; 
+      console.log('Hearing data has been deleted successfully!');
+      window.location.href = '/edit-hearing'; 
     } else {
-      console.log('Error delete building data');
+      console.log('Error delete hearing data');
     }
   })
   .catch(error => {
