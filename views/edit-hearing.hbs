@@ -164,7 +164,7 @@
           if (response.ok) {
             // The request was successful
             console.log('New hearing added successfully!');
-            window.location.href = 'edit-hearing'; 
+            window.location.href = 'get-hearings'; 
           } else {
             // The request failed
             console.log('Error adding new hearing');
@@ -214,7 +214,7 @@
           if (response.ok) {
             // The request was successful
             console.log('Hearing data changed successfully!');
-            window.location.href = 'edit-hearing'; 
+            window.location.href = 'get-hearings'; 
           } else {
             // The request failed
             console.log('Error changing hearing data');
@@ -243,7 +243,7 @@ editButtons.forEach(button => {
     console.log('Edit button clicked with ID:', id);
     // ... your code here ...
 
-    fetch(`/edit-hearing/${id}`)
+    fetch(`/get-hearings/${id}`)
       .then(response => response.json())
       .then(data => {
         document.getElementById('edit-id').value = data[0].id;
@@ -273,7 +273,7 @@ deleteButtons.forEach(button => {
     const buttonId = button.id;
     const id = buttonId.split('_')[1]; 
 
-    fetch(`/edit-hearing/${id}`)
+    fetch(`/get-hearings/${id}`)
       .then(response => response.json())
       .then(data => {
         document.getElementById('signature-span').innerText = data[0].signature;
@@ -303,7 +303,7 @@ deleteButtons.forEach(button => {
   .then(response => {
     if (response.ok) {
       console.log('Hearing data has been deleted successfully!');
-      window.location.href = '/edit-hearing'; 
+      window.location.href = '/get-hearings'; 
     } else {
       console.log('Error delete hearing data');
     }

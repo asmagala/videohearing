@@ -62,7 +62,7 @@ app.get('/get-hearings', (req, res) => {
         return res.status(500).send('Error retrieving simple hearings');
       }
 
-      // Render the hearing page with the list of buildings and locations
+      // Render the hearing page with the list of hearings
       res.render('edit-hearing', {
         pageTitle: 'Rozprawy',
         hearings: hearingResult.recordset
@@ -96,12 +96,12 @@ app.post('/add-hearing', (req, res) => {
       if (err) throw err;
 
       console.log('Hearing added successfully!');
-      res.redirect('edit-hearing');
+      res.redirect('/get-hearings');
     });
   });
 });
 
-
+/*
 app.post('/edit-hearing', (req, res) => {
   console.log('req.body: ', req.body);
   const link = req.body.link;
@@ -116,7 +116,8 @@ app.post('/edit-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `INSERT INTO simple_v_hearing (link, hearing_date, time_from, time_to, info, signature, location) VALUES ('${link}', '${hearing_date}', '${time_from}', '${time_to}', '${info}', '${signature}', '${location}')`;
+    const query = `INSERT INTO simple_v_hearing (link, hearing_date, time_from, time_to, info, signature, location) 
+      VALUES ('${link}', '${hearing_date}', '${time_from}', '${time_to}', '${info}', '${signature}', '${location}')`;
 
     console.log('query: ', query);
 
@@ -124,12 +125,13 @@ app.post('/edit-hearing', (req, res) => {
       if (err) throw err;
 
       console.log('Hearing added successfully!');
-      res.redirect('/edit-hearing');
+      res.redirect('/get-hearings');
     });
   });
 });
+*/
 
-app.get('/edit-hearing/:id', (req, res) => {
+app.get('/get-hearings/:id', (req, res) => {
   const id = req.params.id;
   
   // Use the id to query the database and retrieve the row
@@ -138,7 +140,12 @@ app.get('/edit-hearing/:id', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const selectQueryById = `select id, link, convert(varchar, hearing_date, 23) as hearing_date, convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location from simple_v_hearing where id = ${id}`;
+    const selectQueryById = `SELECT id, link, convert(varchar, hearing_date, 23) as hearing_date, 
+      convert(varchar(5), time_from, 108) as time_from, 
+      convert(varchar(5), time_to, 108) as time_to, 
+      info, signature, location 
+      FROM simple_v_hearing 
+      WHERE id = ${id} AND deleted = 0`;
     
 
     console.log('query: ', selectQueryById);
@@ -167,7 +174,10 @@ app.post('/change-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `UPDATE simple_v_hearing SET link = '${link}', hearing_date = '${hearing_date}', time_from = '${time_from}', time_to = '${time_to}', info = '${info}', signature = '${signature}', location = '${location}' WHERE id = ${id}`;
+    const query = `UPDATE simple_v_hearing 
+      SET link = '${link}', hearing_date = '${hearing_date}', time_from = '${time_from}', 
+      time_to = '${time_to}', info = '${info}', signature = '${signature}', 
+      location = '${location}' WHERE id = ${id}`;
 
     console.log('query: ', query);
 
@@ -175,7 +185,7 @@ app.post('/change-hearing', (req, res) => {
       if (err) throw err;
 
       console.log('Hearing added successfully!');
-      res.redirect('/edit-hearing');
+      res.redirect('/get-hearings');
     });
   });
 });
@@ -192,7 +202,7 @@ app.post('/delete-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `DELETE FROM simple_v_hearing WHERE id = ${id}`;
+    const query = `UPDATE simple_v_hearing SET deleted = 1 WHERE id = ${id}`;
 
     console.log('query: ', query);
 
@@ -200,7 +210,7 @@ app.post('/delete-hearing', (req, res) => {
       if (err) throw err;
 
       console.log('Hearing DELETED successfully!');
-      res.redirect('/edit-hearing');
+      res.redirect('/get-hearings');
     });
   });
 });
