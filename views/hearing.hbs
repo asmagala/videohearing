@@ -7,14 +7,11 @@
 <body>
   <div> 
     <h3>Rozprawy:</h3>
-    <ul>
+
       {{#each hearings}}
-      <li>
-        <div><a href={{{this.link}}} target="_blank">{{this.signature}}</a>
-          sala nr {{this.location}} data: {{this.hearing_date}} od godz.: {{this.time_from}}
+        <div><a href={{{this.link}}} target="_blank">{{this.hearing_date}} godz. {{this.time_from}} {{this.signature}} sala: {{this.location}} </a>
           do godz.: {{this.time_to}} dodatkowa informacja: {{this.info}}
         </div>
-      </li>
       {{/each}}
     </ul>
   </div>

@@ -30,7 +30,10 @@ app.get('/', (req, res) => {
     var hearings = new sql.Request();
     const selectQueryAll = `SELECT id, link, convert(varchar, hearing_date, 23) as hearing_date, 
       convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location 
-      FROM simple_v_hearing WHERE deleted = 0`;
+      FROM simple_v_hearing 
+      WHERE deleted = 0
+      ORDER BY hearing_date, time_from`;
+
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
@@ -55,7 +58,8 @@ app.get('/get-hearings', (req, res) => {
       convert(varchar(5), time_from, 108) as time_from, 
       convert(varchar(5), time_to, 108) as time_to, info, 
       signature, location FROM simple_v_hearing
-      WHERE deleted = 0`;
+      WHERE deleted = 0
+      ORDER BY hearing_date, time_from`;
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
