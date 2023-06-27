@@ -2,18 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="stylesheet.css">
   <title>{{this.pageTitle}}</title>
 </head>
 <body>
   <div> 
     <h3>Rozprawy:</h3>
-
+      <table>
+        <tr>
+          <th>Data</th><th>Godzina</th><th>Sygnatura</th><th>Sala</th>
+        </tr>
       {{#each hearings}}
-        <div><a href={{{this.link}}} target="_blank">{{this.hearing_date}} godz. {{this.time_from}} {{this.signature}} sala: {{this.location}} </a>
-          do godz.: {{this.time_to}} dodatkowa informacja: {{this.info}}
-        </div>
+          <tr><td><a href={{{this.link}}} target="_blank">{{this.hearing_date}}</td><td>{{this.time_from}}</td><td>{{this.signature}}</td><td>{{this.location}}</td></a></tr>
       {{/each}}
-    </ul>
+      </table>
   </div>
 </body>
 </html>

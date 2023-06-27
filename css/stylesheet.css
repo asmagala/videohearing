@@ -1,0 +1,30 @@
+body {
+  background-color: rgb(28, 175, 243);
+}
+
+table {
+  margin: 36px auto 12px auto;
+  color: white;
+}
+
+td {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+td a {
+  color: white;
+  text-decoration: none;
+}
+
+td a:hover {
+  color: darkgreen;
+}
+
+th {
+  border-bottom: 1px midnightblue solid;
+}
+
+tr:hover {
+  background-color: rgb(137, 225, 247);
+  color:rgb(14, 14, 97);
+}
