@@ -1,30 +1,95 @@
 body {
-  background-color: rgb(28, 175, 243);
+  background-color: white;
 }
 
-table {
+div.content {
+  margin: 82px auto 48px auto;
+  width: 960px;
+  border: 1px solid greenyellow;
+}
+
+button.button-add-hearing {
+  height: 48px;
+  width: 280px;
+  padding-left: auto;
+  padding-right: auto;
+  margin-left: 96px;
+  border: 1px solid darkgreen;
+  background-color: #009879;
+  color: white;
+  font-size: 20px;
+}
+
+button.button-add-hearing:hover {
+  background-color: #75d4c1;
+  color: rgb(38, 61, 38);
+
+}
+
+
+.hearingHeader {
+  margin: 48px auto 24px auto;
+}
+
+.hearingHeader h3 {
+  text-align: center;
+  font-size: 32px;
+  color: #046350;
+  margin-bottom: 48px;
+}
+
+.styled-table {
+  border-collapse: collapse;
   margin: 36px auto 12px auto;
-  color: white;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-td {
-  padding-left: 12px;
-  padding-right: 12px;
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
 }
-td a {
-  color: white;
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr:hover a{
+  font-weight: bold;
+  color: #009879;
+}
+
+.styled-table tbody tr a {
   text-decoration: none;
+  color: black;
 }
 
-td a:hover {
-  color: darkgreen;
+span#edit-id-label-text {
+  display: block;
+  margin-top: 6px;
+  padding-top: 0;
+  padding-left: 6px;
+  margin-bottom: 36px;
+  color:#009879;
+  font-size: 8px;
 }
 
-th {
-  border-bottom: 1px midnightblue solid;
-}
-
-tr:hover {
-  background-color: rgb(137, 225, 247);
-  color:rgb(14, 14, 97);
+h3.edit-dialog-h3 {
+  margin-bottom: 0px;
 }

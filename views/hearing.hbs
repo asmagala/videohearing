@@ -7,14 +7,23 @@
 </head>
 <body>
   <div> 
-    <h3>Rozprawy:</h3>
-      <table>
+    <div class="hearingHeader"><h3 >Rozprawy zdalne:</h3></div>
+      <table  class="styled-table">
+        <thead>
         <tr>
           <th>Data</th><th>Godzina</th><th>Sygnatura</th><th>Sala</th>
         </tr>
+        </thead>
+        <tbody>
       {{#each hearings}}
-          <tr><td><a href={{{this.link}}} target="_blank">{{this.hearing_date}}</td><td>{{this.time_from}}</td><td>{{this.signature}}</td><td>{{this.location}}</td></a></tr>
+          <tr>
+            <td><a href={{{this.link}}} target="_blank">{{this.hearing_date}}</a></td>
+            <td><a href={{{this.link}}} target="_blank">{{this.time_from}}</a></td>
+            <td><a href={{{this.link}}} target="_blank">{{this.signature}}</a></td>
+            <td><a href={{{this.link}}} target="_blank">{{this.location}}</a></td>
+          </tr>
       {{/each}}
+      </tbody>
       </table>
   </div>
 </body>

@@ -2,26 +2,37 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="stylesheet.css">
   <title>{{this.pageTitle}}</title>
 </head>
 <body>
-  <p id="paragraph"></p>
-  <h1>----------------</h1>
-  <button id="btnAdd">Dodaj nową rozprawę</button>
-  <div> 
-    <h3>Rozprawy:</h3>
-    <ul>
+
+  <div class="content"> 
+    <div class="hearingHeader"><h3 >Edycja rozpraw zdalnych</h3></div>
+    <div><button id="btnAdd" class="button-add-hearing">Dodaj rozprawę</button></div>
+      <table  class="styled-table">
+        <thead>
+        <tr>
+          <th>Data</th><th>Od godz.:</th><th>Do godz:</th><th>Sygnatura</th>
+          <th>Sala</th><th>Edycja</th><th>Usuwanie</th>
+          <!-- <th>Info</th> -->
+        </tr>
+        </thead>
+        <tbody>
       {{#each hearings}}
-      <li>
-        <div><a href={{{this.link}}} target="_blank">{{this.signature}}</a>
-        sala nr {{this.location}} data: {{this.hearing_date}} od godz.: {{this.time_from}}
-        do godz.: {{this.time_to}} dodatkowa informacja: {{this.info}}
-        <button id="edit_{{this.id}}" class="edit-button">Edytuj</button>
-        <button id="delete_{{this.id}}" class="delete-button">Usuń</button>
-        </div>
-      </li>
+          <tr>
+            <td>{{this.hearing_date}}</td>
+            <td>{{this.time_from}}</td>
+            <td>{{this.time_to}}</td>
+            <td>{{this.signature}}</td>
+            <td>{{this.location}}</td>
+            <td><button id="edit_{{this.id}}" class="edit-button">Edytuj</button></td>
+            <td><button id="delete_{{this.id}}" class="delete-button">Usuń</button></td>
+            <!-- <td><i>i</i></td> -->
+          </tr>
       {{/each}}
-    </ul>
+      </tbody>
+      </table>
   </div>
 
   <dialog id="add-dialog">
@@ -36,9 +47,9 @@
             
       <label for="add-link">Link:</label>
       <input type="text" id="add-link" name="add-link" required><br><br>
-      
-      <label for="add-info">Dodatkowe informacje:</label>
-      <input type="text" id="add-info" name="add-info" required><br><br>
+
+      <label for="add-info" hidden>Dodatkowe informacje:</label>
+      <input type="text" id="add-info" name="add-info" hidden><br><br>
 
       <label for="add-date">Data:</label>
       <input type="date" id="add-date" name="add-date" required><br><br>
@@ -58,10 +69,12 @@
 
   <dialog id="edit-dialog">
     <div> 
-      <h3>Edycja rozprawy:</h3>
+      <h3 class="edit-dialog-h3">Edycja rozprawy:</h3>
+      <span id="edit-id-label-text"></span>
+
     <form id="form-dialog-edit" method="dialog"> 
-      <input id="edit-id" >
-     <label for="edit-signature">Sygnatura:</label>
+      <input id="edit-id" hidden>
+      <label for="edit-signature">Sygnatura:</label>
       <input type="text" id="edit-signature" name="edit-signature" required><br><br>
       
       <label for="edit-location">Sala:</label>
@@ -69,9 +82,9 @@
             
       <label for="edit-link">Link:</label>
       <input type="text" id="edit-link" name="edit-link" required><br><br>
-      
-      <label for="edit-info">Dodatkowe informacje:</label>
-      <input type="text" id="edit-info" name="edit-info" required><br><br>
+
+      <label for="edit-info" hidden>Dodatkowe informacje:</label>
+      <input type="text" id="edit-info" name="edit-info" hidden><br><br>
 
       <label for="edit-date">Data:</label>
       <input type="date" id="edit-date" name="edit-date" required><br><br>
@@ -140,8 +153,8 @@
         time_to: document.getElementById('add-time-to').value
       };
 
-      const paragraph = document.getElementById('paragraph');
-      paragraph.innerText = 'sssssssssssssssssssssss'; 
+      //const paragraph = document.getElementById('paragraph');
+      //paragraph.innerText = 'sssssssssssssssssssssss'; 
 
       const tekst = `sygnatura: ${data.signature}, 
       sala: ${data.location},
@@ -235,17 +248,17 @@ const editButtons = document.querySelectorAll('.edit-button');
 // Add event listener to each button
 editButtons.forEach(button => {
   button.addEventListener('click', function() {
-    // Extract the ID from the button's ID attribute
     const buttonId = button.id;
-    const id = buttonId.split('_')[1]; // Assuming the ID is after the underscore
+    const id = buttonId.split('_')[1]; 
 
-    // Perform the desired action with the extracted ID
+
     console.log('Edit button clicked with ID:', id);
-    // ... your code here ...
+
 
     fetch(`/get-hearings/${id}`)
       .then(response => response.json())
       .then(data => {
+        document.getElementById('edit-id-label-text').textContent = `id = ${data[0].id}`;
         document.getElementById('edit-id').value = data[0].id;
         document.getElementById('edit-signature').value = data[0].signature;
         document.getElementById('edit-location').value = data[0].location;

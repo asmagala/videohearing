@@ -28,13 +28,24 @@ const config = {
 
 /////////////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
+
+  const currDate = new Date().toJSON().slice(0, 10);
+  console.log(currDate);
+
   sql.connect(config, () => {
     var hearings = new sql.Request();
+
+
     const selectQueryAll = `SELECT id, link, convert(varchar, hearing_date, 23) as hearing_date, 
       convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location 
       FROM simple_v_hearing 
-      WHERE deleted = 0
+      WHERE deleted = 0 
+      AND hearing_date >= '${currDate}' 
       ORDER BY hearing_date, time_from`;
+
+      //convert(varchar, ${currDate}, 23)
+
+    //console.log('-------', selectQueryAll);
 
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
