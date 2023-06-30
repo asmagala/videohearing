@@ -109,3 +109,6 @@ hr.greenBreak {
 
 }
 
+.hideElement {
+  display: none;
+}
