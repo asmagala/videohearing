@@ -4,8 +4,9 @@ body {
 
 div.content {
   margin: 82px auto 48px auto;
+  padding-bottom: 48px;
   width: 960px;
-  border: 1px solid greenyellow;
+  border: 1px solid rgb(157, 202, 157);
 }
 
 button.button-add-hearing {
@@ -13,7 +14,6 @@ button.button-add-hearing {
   width: 280px;
   padding-left: auto;
   padding-right: auto;
-  margin-left: 96px;
   border: 1px solid darkgreen;
   background-color: #009879;
   color: white;
@@ -24,6 +24,10 @@ button.button-add-hearing:hover {
   background-color: #75d4c1;
   color: rgb(38, 61, 38);
 
+}
+
+div.div-add-hearing {
+  text-align: center;
 }
 
 
@@ -80,16 +84,31 @@ button.button-add-hearing:hover {
   color: black;
 }
 
+.styled-table tbody tr:hover {
+  background-color: rgb(233, 243, 241);
+}
+
 span#edit-id-label-text {
   display: block;
   margin-top: 6px;
   padding-top: 0;
   padding-left: 6px;
-  margin-bottom: 36px;
-  color:#009879;
-  font-size: 8px;
+  margin-bottom: 8px;
+  color:#18443b;
+  font-size: 12px;
+  font-style: italic;
 }
 
 h3.edit-dialog-h3 {
   margin-bottom: 0px;
+}
+
+hr.greenBreak {
+  border: 1px solid darkgreen;
+  margin-bottom: 24px
+
+}
+
+.non-display {
+  display: none;
 }

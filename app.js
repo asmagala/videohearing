@@ -43,10 +43,6 @@ app.get('/', (req, res) => {
       AND hearing_date >= '${currDate}' 
       ORDER BY hearing_date, time_from`;
 
-      //convert(varchar, ${currDate}, 23)
-
-    //console.log('-------', selectQueryAll);
-
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
@@ -81,7 +77,7 @@ app.get('/get-hearings', (req, res) => {
 
       // Render the hearing page with the list of hearings
       res.render('edit-hearing', {
-        pageTitle: 'Rozprawy',
+        pageTitle: 'Rozprawy - Edycja',
         hearings: hearingResult.recordset
         });
     });

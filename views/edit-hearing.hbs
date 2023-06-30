@@ -9,7 +9,7 @@
 
   <div class="content"> 
     <div class="hearingHeader"><h3 >Edycja rozpraw zdalnych</h3></div>
-    <div><button id="btnAdd" class="button-add-hearing">Dodaj rozprawę</button></div>
+    <div class="div-add-hearing"><button id="btnAdd" class="button-add-hearing">Dodaj rozprawę</button></div>
       <table  class="styled-table">
         <thead>
         <tr>
@@ -71,7 +71,7 @@
     <div> 
       <h3 class="edit-dialog-h3">Edycja rozprawy:</h3>
       <span id="edit-id-label-text"></span>
-
+    <hr class="greenBreak" >
     <form id="form-dialog-edit" method="dialog"> 
       <input id="edit-id" hidden>
       <label for="edit-signature">Sygnatura:</label>
@@ -83,8 +83,8 @@
       <label for="edit-link">Link:</label>
       <input type="text" id="edit-link" name="edit-link" required><br><br>
 
-      <label for="edit-info" hidden>Dodatkowe informacje:</label>
-      <input type="text" id="edit-info" name="edit-info" hidden><br><br>
+      <label for="edit-info" hidden class="non-display">Dodatkowe informacje:</label>
+      <input type="text" id="edit-info" name="edit-info" hidden class="non-display"><br><br>
 
       <label for="edit-date">Data:</label>
       <input type="date" id="edit-date" name="edit-date" required><br><br>
