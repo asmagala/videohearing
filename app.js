@@ -116,36 +116,6 @@ app.post('/add-hearing', (req, res) => {
   });
 });
 
-/*
-app.post('/edit-hearing', (req, res) => {
-  console.log('req.body: ', req.body);
-  const link = req.body.link;
-  const hearing_date = req.body.hearing_date;
-  const time_from = req.body.time_from;
-  const time_to = req.body.time_to;
-  const info = req.body.info;
-  const signature = req.body.signature;
-  const location = req.body.location;
-
-  sql.connect(config, (err) => {
-    if (err) throw err;
-
-    const request = new sql.Request();
-    const query = `INSERT INTO simple_v_hearing (link, hearing_date, time_from, time_to, info, signature, location) 
-      VALUES ('${link}', '${hearing_date}', '${time_from}', '${time_to}', '${info}', '${signature}', '${location}')`;
-
-    console.log('query: ', query);
-
-    request.query(query, (err, result) => {
-      if (err) throw err;
-
-      console.log('Hearing added successfully!');
-      res.redirect('/get-hearings');
-    });
-  });
-});
-*/
-
 app.get('/get-hearings/:id', (req, res) => {
   const id = req.params.id;
   
@@ -231,6 +201,26 @@ app.post('/delete-hearing', (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////
+
+app.get('/start-comp/', (req, res) => {
+  const wol = require('wake_on_lan');
+
+  // Specify the target computer's MAC address
+  const macAddress = '04-0E-3C-37-E5-3B';
+  
+  // Send the WoL packet
+  wol.wake(macAddress, (error) => {
+    if (error) {
+      console.error('Failed to send WoL packet:', error);
+      res.json('Problem z wysłaniem pakietu');
+    } else {
+      console.log('WoL packet sent successfully!');
+      res.json('Pakiet wysłany');
+    }
+  });
+});
+
+//////////////////////////////////////////////////////////////////////
 
 
 app.listen(process.env.PORT, () => {
