@@ -26,6 +26,9 @@ const config = {
   trustServerCertificate: process.env.DB_TRUST === 'true' ? true : false
 };
 
+
+const TABLE = process.env.PRODUCTION === 'true' ? process.env.DB_HEARING_TABLE : process.env.DB_TEST_HEARING_TABLE;
+
 /////////////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
 
@@ -38,7 +41,7 @@ app.get('/', (req, res) => {
 
     const selectQueryAll = `SELECT id, link, convert(varchar, hearing_date, 23) as hearing_date, 
       convert(varchar(5), time_from, 108) as time_from, convert(varchar(5), time_to, 108) as time_to, info, signature, location 
-      FROM simple_v_hearing 
+      FROM ${TABLE} 
       WHERE deleted = 0 
       AND hearing_date >= '${currDate}' 
       ORDER BY hearing_date, time_from`;
@@ -60,6 +63,7 @@ app.get('/', (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 app.get('/get-hearings', (req, res) => {
+  console.log('req.route.path: ', req.route.path);
   sql.connect(config, () => {
     const currDate = new Date().toJSON().slice(0, 10);
     var hearings = new sql.Request();
@@ -67,14 +71,15 @@ app.get('/get-hearings', (req, res) => {
       convert(varchar, hearing_date, 23) as hearing_date, 
       convert(varchar(5), time_from, 108) as time_from, 
       convert(varchar(5), time_to, 108) as time_to, info, 
-      signature, location FROM simple_v_hearing
+      signature, location 
+      FROM ${TABLE}
       WHERE deleted = 0
       AND hearing_date >= '${currDate}' 
       ORDER BY hearing_date, time_from`;
     hearings.query(selectQueryAll, function(hearingErr, hearingResult) {
       if (hearingErr) {
         console.log(hearingErr);
-        return res.status(500).send('Error retrieving simple hearings');
+        return res.status(500).send('Error retrieving hearings');
       }
 
       // Render the hearing page with the list of hearings
@@ -100,7 +105,7 @@ app.post('/add-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `INSERT INTO simple_v_hearing 
+    const query = `INSERT INTO ${TABLE} 
       (link, hearing_date, time_from, time_to, info, signature, location) 
       VALUES 
       ('${link}', '${hearing_date}', '${time_from}', '${time_to}', '${info}', '${signature}', '${location}')`;
@@ -129,7 +134,7 @@ app.get('/get-hearings/:id', (req, res) => {
       convert(varchar(5), time_from, 108) as time_from, 
       convert(varchar(5), time_to, 108) as time_to, 
       info, signature, location 
-      FROM simple_v_hearing 
+      FROM ${TABLE} 
       WHERE id = ${id} AND deleted = 0`;
     
 
@@ -159,7 +164,7 @@ app.post('/change-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `UPDATE simple_v_hearing 
+    const query = `UPDATE ${TABLE} 
       SET link = '${link}', hearing_date = '${hearing_date}', time_from = '${time_from}', 
       time_to = '${time_to}', info = '${info}', signature = '${signature}', 
       location = '${location}' WHERE id = ${id}`;
@@ -187,7 +192,7 @@ app.post('/delete-hearing', (req, res) => {
     if (err) throw err;
 
     const request = new sql.Request();
-    const query = `UPDATE simple_v_hearing SET deleted = 1 WHERE id = ${id}`;
+    const query = `UPDATE ${TABLE} SET deleted = 1 WHERE id = ${id}`;
 
     console.log('query: ', query);
 
